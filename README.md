@@ -7,15 +7,16 @@ custom domain `skeeterless.us`.
 ## Structure
 
 ```
-index.html        Home page (all sections, SEO meta tags, JSON-LD)
-thank-you.html     Post-submit redirect target for the contact form (noindex)
-404.html           Custom not-found page
-css/style.css      All styling
-js/script.js       Mobile nav toggle + footer year
-assets/favicon.svg Site icon / logo mark
-robots.txt         Crawler rules + sitemap pointer
-sitemap.xml        Single-page sitemap
-CNAME              GitHub Pages custom domain config (skeeterless.us)
+index.html                     Home page (all sections, SEO meta tags, JSON-LD)
+thank-you.html                 Post-submit redirect target for the contact form (noindex)
+404.html                       Custom not-found page
+css/style.css                  All styling
+js/script.js                   Mobile nav toggle + footer year
+assets/favicon.svg             Site icon / logo mark
+robots.txt                     Crawler rules + sitemap pointer
+sitemap.xml                    Single-page sitemap
+CNAME                          GitHub Pages custom domain config (skeeterless.us)
+.github/workflows/deploy.yml   GitHub Actions workflow that deploys to Pages on every push to master
 ```
 
 ## Before going live
@@ -32,15 +33,23 @@ CNAME              GitHub Pages custom domain config (skeeterless.us)
 
 ## Deploying to GitHub Pages with a custom domain
 
+Deployment is automated via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) — every push
+to `master` builds and publishes the site with no build step required (it just uploads the repo root as
+the Pages artifact).
+
 1. Push this repo to GitHub.
-2. In the repo, go to **Settings → Pages**, set the source branch (e.g. `main`) and root folder.
-3. Under **Custom domain**, enter `skeeterless.us` and save (this repo already has a `CNAME` file, so
-   GitHub should pick it up automatically — but set it in the UI too so GitHub provisions HTTPS).
-4. At your DNS provider, point the apex domain at GitHub Pages:
+2. In the repo, go to **Settings → Pages** and under **Build and deployment → Source**, select
+   **GitHub Actions** (not "Deploy from a branch").
+3. Push to `master` (or run the workflow manually from the **Actions** tab) — this triggers the
+   `Deploy to GitHub Pages` workflow, which publishes the site.
+4. Still under **Settings → Pages**, enter `skeeterless.us` under **Custom domain** and save (this repo
+   already has a `CNAME` file, so GitHub should pick it up automatically — but set it in the UI too so
+   GitHub provisions HTTPS).
+5. At your DNS provider, point the apex domain at GitHub Pages:
    - `A` records for `skeeterless.us` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
      `185.199.111.153`
    - Optionally a `CNAME` record for `www.skeeterless.us` → `<your-github-username>.github.io`
-5. Wait for DNS to propagate, then enable **Enforce HTTPS** in the Pages settings once the certificate
+6. Wait for DNS to propagate, then enable **Enforce HTTPS** in the Pages settings once the certificate
    is issued.
 
 ## Local preview
